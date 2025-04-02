@@ -20,14 +20,18 @@ connectDB()
 await connectCloudinary()
 
 // Middlewares
-app.use(cors())
 app.use(
   cors({
-    origin: "http://localhost:5173", // Replace with your frontend URL
-    methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: "Content-Type,Authorization",
+    origin: "http://localhost:5173", // Allow frontend origin
+    methods: "GET, POST, PUT, DELETE, OPTIONS",
+    allowedHeaders: "Content-Type, Authorization",
+    credentials: true, // Allow cookies if using authentication
   })
 );
+
+// ✅ Handle Preflight Requests Properly
+app.options("*", cors());
+
 app.use(express.json())
 app.use(clerkMiddleware())
 
